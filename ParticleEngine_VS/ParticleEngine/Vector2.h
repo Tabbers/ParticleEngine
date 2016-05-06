@@ -95,6 +95,7 @@ public:
 	 float GetAngleRad()				   const;
 	 float GetAngleDeg()				   const;
 	 float dot(const Vector2& rhs)		   const;
+	 float det(const Vector2& rhs)		   const;
 	 sf::Vector2f toVector2f()			   const;
 	 sf::Vector2i toVector2i()			   const;
 	 sf::Vector2u toVector2u()			   const;

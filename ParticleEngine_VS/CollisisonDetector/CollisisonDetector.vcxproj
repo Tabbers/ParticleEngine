@@ -30,8 +30,10 @@
     <ClInclude Include="..\ParticleEngine\Display.h" />
     <ClInclude Include="..\ParticleEngine\Simulation.h" />
     <ClInclude Include="..\ParticleEngine\Vector2.h" />
+    <ClInclude Include="PE_Collision.h" />
     <ClInclude Include="PE_ForceGenerator.h" />
     <ClInclude Include="PE_Integrator.h" />
+    <ClInclude Include="PE_PostIntegrator.h" />
     <ClInclude Include="PE_Types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

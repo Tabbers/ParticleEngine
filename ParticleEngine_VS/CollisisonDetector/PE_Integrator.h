@@ -7,19 +7,19 @@ namespace pe
 {
 	namespace integrator
 	{
-		const static float dampening = 0.99f;
+		const static float dampening = 0.9999f;
 
-		void Integrator(Vector2 &force, Particle* particle, float &deltatime)
+		// Calculate Possible future Position
+		Vector2 Integrator(Vector2 &force, Particle* particle, float &deltatime)
 		{
 			Vector2 newPosition;
 			Vector2 acceleration;
 			Vector2 velocity;
 
 			acceleration = force / particle->mass;
-			velocity = particle->velocity*powf(dampening, deltatime) + acceleration * deltatime;
-
-			newPosition = particle->pos + velocity*deltatime;
-			particle->pos = newPosition;
+			velocity = particle->velocity*dampening + acceleration * deltatime;
+			particle->velocity = velocity;
+			return particle->pos + velocity;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-#include "vector2.h"
+﻿#include "vector2.h"
 #include <math.h>
 
 Vector2::Vector2(float x, float y)
@@ -80,6 +80,7 @@ Vector2 Vector2::operator/(const float rhs) const
 }
 
 bool Vector2::operator==(const Vector2 & rhs) const
+
 {
 	return (fabsf(rhs.x - this->x) < EPSILON) && (fabsf(rhs.y - this->y) < EPSILON);
 }
@@ -91,7 +92,7 @@ bool Vector2::operator>(const Vector2 & rhs) const
 
 bool Vector2::operator<(const Vector2 & rhs) const
 {
-		return (this->x < rhs.x) && (this->y < rhs.y);
+	return (this->x < rhs.x) && (this->y < rhs.y);
 }
 
 Vector2 Vector2::invert() const
@@ -148,11 +149,16 @@ float Vector2::dot(const Vector2& rhs) const
 	return this->x*rhs.x+this->y*rhs.y;
 }
 
+float Vector2::det(const Vector2 & rhs) const
+{
+	return this->x*rhs.y - this->y*rhs.x;
+}
+
 sf::Vector2f Vector2::toVector2f() const
 {
 	sf::Vector2f vec2f;
-	vec2f.x = x;
-	vec2f.y = y;
+	vec2f.x = this->x;
+	vec2f.y = this->y;
 	return vec2f;
 }
 
