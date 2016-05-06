@@ -18,7 +18,7 @@ Vector2::~Vector2()
 {
 }
 
-void Vector2::operator=(const Vector2 & rhs)
+void Vector2::operator=(const Vector2 & rhs) 
 {
 	x = rhs.x;
 	y = rhs.y;
@@ -30,50 +30,71 @@ void Vector2::operator+=(const Vector2 & rhs)
 	y +=  rhs.y;
 }
 
-Vector2 Vector2::operator+(const Vector2 &rhs)
+void Vector2::operator*=(const float rhs)
+{
+	x *= rhs;
+	y *= rhs;
+}
+
+void Vector2::operator*=(const Vector2 & rhs)
+{
+	x *= rhs.x;
+	y *= rhs.y;
+}
+
+Vector2 Vector2::operator+(const Vector2 &rhs) const
 {
 	Vector2 temp;
 	temp.x = x + rhs.x;
 	temp.y = y + rhs.y;
 	return temp;
 }
-Vector2 Vector2::operator-(const Vector2 &rhs)
+Vector2 Vector2::operator-(const Vector2 &rhs) const
 {
 	Vector2 temp;
 	temp.x = x - rhs.x;
 	temp.y = y - rhs.y;
 	return temp;
 }
-Vector2 Vector2::operator*(const float &rhs)
+Vector2 Vector2::operator*(const float rhs) const
 {
 	Vector2 temp;
 	temp.x = x * rhs;
 	temp.y = y * rhs;
 	return temp;
 }
-Vector2 Vector2::operator*(const Vector2 &rhs)
+Vector2 Vector2::operator*(const Vector2 &rhs) const
 {
 	Vector2 temp;
-	temp.x *= rhs.x;
-	temp.y *= rhs.y;
+	temp.x = x * rhs.x;
+	temp.y = y * rhs.y;
 	return temp;
 }
 
-Vector2 Vector2::operator/(const float & rhs)
+Vector2 Vector2::operator/(const float rhs) const
 {
 	Vector2 temp;
 	temp.x = x / rhs;
 	temp.y = y / rhs;
 	return temp;
-	return Vector2();
 }
 
-bool Vector2::operator==(const Vector2 & rhs)
+bool Vector2::operator==(const Vector2 & rhs) const
 {
-	return rhs.x==this->x && rhs.y==this->y;
+	return (fabsf(rhs.x - this->x) < EPSILON) && (fabsf(rhs.y - this->y) < EPSILON);
 }
 
-Vector2 Vector2::invert()
+bool Vector2::operator>(const Vector2 & rhs) const
+{
+	return (this->x > rhs.x) && (this->y > rhs.y);
+}
+
+bool Vector2::operator<(const Vector2 & rhs) const
+{
+		return (this->x < rhs.x) && (this->y < rhs.y);
+}
+
+Vector2 Vector2::invert() const
 {
 	Vector2 temp;
 	temp.x = -x;
@@ -81,22 +102,19 @@ Vector2 Vector2::invert()
 	return temp;
 }
 
-Vector2 Vector2::rotate(float angle)
+Vector2& Vector2::rotate(float angle)
 {
-	Vector2 temp;
-
 	float theta = angle*PI/180;
-	float l = this->GetAngle();
+	float l = this->GetAngleRad();
 	float length = this->Length();
 
-	temp.x = cos(theta + l)*length;
-	temp.y = sin(theta + l)*length;
+	this->x = cos(theta + l)*length;
+	this->y = sin(theta + l)*length;
 
-	*this = temp;
-	return temp;
+	return *this;
 }
 
-Vector2 Vector2::Normalize()
+Vector2 Vector2::Normalize() const
 {
 	Vector2 temp;
 	float length = this->Length();
@@ -106,24 +124,31 @@ Vector2 Vector2::Normalize()
 	return temp;
 }
 
-float Vector2::Length()
+float Vector2::Length() const
 {
-	float result = sqrt(pow(this->x, 2) + pow(this->y, 2));
-	return result;
+	return sqrt(pow(this->x, 2) + pow(this->y, 2));
 }
 
-float Vector2::GetAngle()
+float Vector2::SqrLength() const 
 {
-	float temp=atan2f(y,x);
-	return temp;
+	return pow(this->x, 2) + pow(this->y, 2);
 }
 
-float Vector2::dot(const Vector2& rhs)
+float Vector2::GetAngleRad() const
 {
-	return this->x*rhs.y+this->y*rhs.x;
+	return atan2f(y, x);;
 }
 
-sf::Vector2f Vector2::toVector2f()
+float Vector2::GetAngleDeg()const
+{
+	return (GetAngleRad() * 180) / PI;
+}
+float Vector2::dot(const Vector2& rhs) const
+{
+	return this->x*rhs.x+this->y*rhs.y;
+}
+
+sf::Vector2f Vector2::toVector2f() const
 {
 	sf::Vector2f vec2f;
 	vec2f.x = x;
@@ -131,7 +156,7 @@ sf::Vector2f Vector2::toVector2f()
 	return vec2f;
 }
 
-sf::Vector2i Vector2::toVector2i()
+sf::Vector2i Vector2::toVector2i() const
 {
 	sf::Vector2i vec2i;
 	vec2i.x = static_cast<int>(x);
@@ -139,7 +164,7 @@ sf::Vector2i Vector2::toVector2i()
 	return vec2i;
 }
 
-sf::Vector2u Vector2::toVector2u()
+sf::Vector2u Vector2::toVector2u() const
 {
 	sf::Vector2u vec2u;
 	vec2u.x = static_cast<unsigned int>(x);
@@ -147,7 +172,7 @@ sf::Vector2u Vector2::toVector2u()
 	return vec2u;
 }
 
-Vector2 Vector2::rotate90()
+Vector2 Vector2::rotate90() const
 {
 	if (x > 0)		return Vector2(0 , 1);
 	else if (x < 0) return Vector2(0 , -1);
@@ -156,14 +181,13 @@ Vector2 Vector2::rotate90()
 	return Vector2();
 }
 
-Vector2 Vector2::rotateAroundPoint(Vector2 pivot, float angle)
+Vector2& Vector2::rotateAroundPoint(Vector2 pivot, float angle)
 {
 	float theta = angle * PI / 180;
 	
-	Vector2 tempVect(x - pivot.x, y - pivot.y);
-	tempVect.rotate(angle);
-	tempVect += pivot;
-
-	*this = tempVect;
+	*this += pivot * -1;
+	rotate(angle);
+	*this += pivot;
+	
 	return *this;
 }
