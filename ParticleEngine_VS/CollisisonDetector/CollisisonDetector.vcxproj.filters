@@ -53,5 +53,11 @@
     <ClInclude Include="PE_Integrator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PE_PostIntegrator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PE_Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
