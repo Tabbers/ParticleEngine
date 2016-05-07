@@ -37,10 +37,11 @@ void Display::Render()
 void Display::UpdateVertexArrays(std::vector<pe::Particle*> &particles)
 {
 	points.resize(particles.size());
-	for (unsigned int i = 0; i < particles.size()-1; ++i)
+	for (unsigned int i = 0; i < particles.size(); ++i)
 	{
 		points[i].color = particleColor;
 		points[i].position = particles[i]->pos.toVector2f();
+		points[i].color = particleColor;
 	}
 }
 

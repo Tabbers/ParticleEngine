@@ -5,17 +5,18 @@ namespace pe
 {
 	namespace collision
 	{
+		const float dampening = 0.1;
 		//returns the time of Collision between a particle and a surface
-		float VectorLineCollision(Particle* particle, Surface* surface, float deltatime)
+		static float VectorLineCollision(Particle* particle, Surface* surface, float deltatime)
 		{
 			Vector2 s = particle->velocity*deltatime;
 			Vector2 r = surface->point2 - surface->point1;
 
-			float rdots = r.dot(s);
+			float rdets = r.det(s);
 
-			float t = (particle->pos - surface->point1).dot(s) / rdots;
-			float u = (surface->point1 - particle->pos).dot(s) / rdots;
-			if (fabsf(rdots) > r.EPSILON && (t >= 0 && t <= 1) && (u >= 0 && u <= 1))
+			float t = (particle->pos - surface->point1).det(s) / rdets;
+			float u = (particle->pos - surface->point1).det(r) / rdets;
+			if (fabsf(rdets) > r.EPSILON && (t >= 0 && t <= 1) && (u >= 0 && u <= 1))
 			{
 				return t;
 			}
@@ -26,11 +27,11 @@ namespace pe
 
 		}
 		//Returns a Vector reflected on the surface around the surface normal
-		Vector2 ReflectOfSurface(Vector2 in, Surface* surface)
+		static Vector2 ReflectOfSurface(Vector2 in, Surface* surface)
 		{
-			return in + surface->normal * (2 * in.dot(surface->normal));
+			return in - surface->normal * (2 * in.dot(surface->normal));
 		}
-		bool SurfaceCollissionSolver(Particle* particle, std::vector<Surface*> &surfaces, float deltatime)
+		static bool SurfaceCollissionSolver(Particle* particle, std::vector<Surface*> &surfaces, float deltatime)
 		{
 			for (unsigned int i = 0; i < surfaces.size(); ++i)
 			{
@@ -43,8 +44,7 @@ namespace pe
 				{
 					//Point of Impact
 					Vector2 poi = particle->pos + particle->velocity * timeOfCollision;
-					particle->velocity = ReflectOfSurface(particle->velocity, surfaces[i]);
-					particle->pos = poi + particle->velocity * (deltatime - timeOfCollision);
+					particle->velocity = ReflectOfSurface(particle->velocity, surfaces[i]) * dampening;
 					return true;
 				}
 			}

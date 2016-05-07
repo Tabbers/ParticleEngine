@@ -105,13 +105,17 @@ Vector2 Vector2::invert() const
 
 Vector2& Vector2::rotate(float angle)
 {
-	float theta = angle*PI/180;
-	float l = this->GetAngleRad();
-	float length = this->Length();
 
-	this->x = cos(theta + l)*length;
-	this->y = sin(theta + l)*length;
+	angle *= PI/180.0f;
 
+	float sinAngle = sinf(angle);
+	float cosAngle = cosf(angle);
+
+	float rX = this->x * cosAngle - this->y * sinAngle;
+	float rY = this->x * sinAngle + this->y * cosAngle;
+
+	this->x = rX;
+	this->y = rY;
 	return *this;
 }
 
@@ -142,11 +146,13 @@ float Vector2::GetAngleRad() const
 
 float Vector2::GetAngleDeg()const
 {
-	return (GetAngleRad() * 180) / PI;
+	return (GetAngleRad() * 180.0f) / PI;
 }
 float Vector2::dot(const Vector2& rhs) const
 {
-	return this->x*rhs.x+this->y*rhs.y;
+	float a = this->x*rhs.x;
+	float b = this->y*rhs.y;
+	return a + b;
 }
 
 float Vector2::det(const Vector2 & rhs) const

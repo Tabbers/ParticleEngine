@@ -12,22 +12,18 @@ namespace pe
 		GRAVITY = (1 << 0),
 		DRAG	= (1 << 1),
 		IMPULSE = (1 << 2),
-		DELAYEDIMPULSE = (1 << 3),
-		COLLISION_FRICTION =(1 << 30),
-		COLLISION_REFLEXION = (1 << 31)
-	};
-	struct Force
-	{
-		Vector2 direction;
-		float amount;
+		COLLISION_FRICTION =(1 <<29),
+		COLLISION_REFLEXION = (1 << 30),
+		EMITTER = (1 << 31),
 	};
 	struct Particle 
 	{
 		uint32_t forceGenKey;
 		Vector2  pos;
 		Vector2	 velocity;
-		float	 mass;
-		Force	 f;
+		//1/mass
+		float	 massfactor;
+		Vector2  force;
 	};
 	struct Emitter : Particle
 	{
@@ -56,5 +52,4 @@ namespace pe
 			normal.y = v.x;
 		}
 	};
-	const Vector2 EMITNEW(-std::numeric_limits<float>::infinity(), +std::numeric_limits<float>::infinity());
 }

@@ -15,9 +15,9 @@ Core::~Core()
 
 void Core::Init()
 {
-	context.antialiasingLevel = 8;
+	context.antialiasingLevel = 0;
 	window = new sf::RenderWindow(sf::VideoMode(700, 700), "Collision Detection", sf::Style::Default, context);
-	window->setVerticalSyncEnabled(true);
+	window->setVerticalSyncEnabled(false);
 
 	Vector2 windowsize;
 	windowsize.x = window->getSize().x;
@@ -56,18 +56,15 @@ void Core::Run()
 			{
 				
 			}
-			
-		}
-		if (window->hasFocus())
-		{
-			position = sf::Mouse::getPosition(*window);
-			mousePosition.x = window->mapPixelToCoords(position).x;
-			mousePosition.y = window->mapPixelToCoords(position).y;
-		
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (event.type == sf::Event::MouseButtonReleased)
 			{
+				position = sf::Mouse::getPosition(*window);
+				mousePosition.x = window->mapPixelToCoords(position).x;
+				mousePosition.y = window->mapPixelToCoords(position).y;
+
 				sim->AddNewParticle(mousePosition);
 			}
+			
 		}
 
 		window->clear(sf::Color::Black);

@@ -5,60 +5,44 @@ namespace pe
 {
 	namespace forceSolver
 	{
-		const Vector2 gravity(0.0f, 9.81f);
-		const float friction  = 0.99999f;
-		const float preassure = 0.99999f;
+		const Vector2 m_gravity(0.0f, 20.81f);
+		const float m_friction  = 0.001f;
+		const float m_preassure = 0.001f;
 
-		Vector2 GravitySolver(Particle* particle)
+		static Vector2 GravitySolver(Particle* particle)
 		{
-			return gravity / particle->mass;
+			return m_gravity * particle->massfactor;
 		}
-		Vector2 DragSolver(Particle* particle, float friction, float pressure)
+		static Vector2 DragSolver(Particle* particle)
 		{
 			Vector2 force;
 			float velLength = particle->velocity.Length();
-
 			if (particle->velocity.x == 0 && particle->velocity.y == 0)
 			{
 				return force;
 			}
 			Vector2 velNormalized = particle->velocity.Normalize() * -1;
-			float draglength = friction * velLength + preassure * powf(velLength, 2);
+			float draglength = m_friction * velLength + m_preassure * powf(velLength, 2);
 			velNormalized *= draglength;
 			return velNormalized;
 		}
-		Vector2 ImpulseSolver(Particle* particle)
+		static Vector2 ImpulseSolver(Particle* particle)
 		{
-			return (particle->f.direction*particle->f.amount) / particle->mass;
+			return particle->force * particle->massfactor;
 		}
 
-		Vector2 ApplyForces(Particle* particle, std::vector<Surface*> &surfaces, float deltatime)
+		static Vector2 ApplyForces(Particle* particle)
 		{
 			Vector2 finalforce;
+			unsigned short gravity = (particle->forceGenKey & pe::Keys::GRAVITY);
+			unsigned short drag = ((particle->forceGenKey & pe::Keys::DRAG) >> 1);
+			unsigned short impulse = ((particle->forceGenKey & pe::Keys::IMPULSE) >> 2);
+			
+			finalforce += GravitySolver(particle) * gravity;
+			finalforce += DragSolver(particle) * drag ;
+			finalforce += ImpulseSolver(particle) * impulse;
+			particle->forceGenKey &= ~pe::Keys::IMPULSE;
 
-			if (particle->forceGenKey & pe::Keys::GRAVITY)
-			{
-				finalforce += GravitySolver(particle);
-			}
-			if (particle->forceGenKey & pe::Keys::DRAG)
-			{
-				finalforce += DragSolver(particle,friction,preassure);
-			}
-			if(particle->forceGenKey & pe::Keys::IMPULSE)
-			{
-				particle->forceGenKey &= ~pe::Keys::IMPULSE;
-				finalforce += ImpulseSolver(particle);
-			}
-			if (particle->forceGenKey & pe::Keys::DELAYEDIMPULSE)
-			{
-				pe::Emitter* p = reinterpret_cast<Emitter*>(particle);
-				p->currenttime += deltatime;
-				if (p->currenttime > p->timer)
-				{
-					p->forceGenKey &= ~pe::Keys::DELAYEDIMPULSE;
-					return EMITNEW;
-				}
-			}
 			return finalforce;
 		}
 	}
