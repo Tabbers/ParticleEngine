@@ -8,6 +8,7 @@
 Simulation::Simulation()
 {
 	particles.reserve(10000000);
+	collisions.reserve(particles.capacity());
 	surfaces.reserve(100);
 }
 
@@ -17,6 +18,14 @@ Simulation::~Simulation()
 	for (unsigned int i = 0; i < particles.size(); ++i)
 	{
 		delete particles[i];
+	}
+	for (unsigned int i = 0; i < surfaces.size(); ++i)
+	{
+		delete surfaces[i];
+	}
+	for (unsigned int i = 0; i < collisions.size(); ++i)
+	{
+		delete collisions[i];
 	}
 }
 
@@ -80,7 +89,6 @@ void Simulation::Update(float deltatime, Vector2 mousePos)
 	{
 		Vector2 forcePerParticle;
 		forcePerParticle = pe::forceSolver::ApplyForces(particles[i]);
-		std::cout << forcePerParticle.Length() << std::endl;
 		Vector2 futurePosition = pe::integrator::Integrator(forcePerParticle, particles[i], deltatime);
 		if (!pe::postIntegration::CollissionSolver(particles[i], surfaces, deltatime))
 		{

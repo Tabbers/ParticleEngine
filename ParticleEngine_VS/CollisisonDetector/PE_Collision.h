@@ -31,7 +31,7 @@ namespace pe
 		{
 			return in - surface->normal * (2 * in.dot(surface->normal));
 		}
-		static bool SurfaceCollissionSolver(Particle* particle, std::vector<Surface*> &surfaces, float deltatime)
+		static bool SurfaceCollissionSolver(pe::Particle* particle, std::vector<pe::Surface*> &surfaces, float deltatime)
 		{
 			for (unsigned int i = 0; i < surfaces.size(); ++i)
 			{

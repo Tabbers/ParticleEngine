@@ -52,4 +52,10 @@ namespace pe
 			normal.y = v.x;
 		}
 	};
+	struct CollisionData
+	{
+		float toi;
+		int surfaceIndex;
+		int particleINdex;
+	};
 }

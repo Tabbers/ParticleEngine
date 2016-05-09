@@ -22,5 +22,6 @@ private:
 	Vector2 m_SimulationBounds;
 	std::vector<pe::Particle*> particles;
 	std::vector<pe::Surface*> surfaces;
+	std::vector<pe::CollisionData*> collisions;
 };
 

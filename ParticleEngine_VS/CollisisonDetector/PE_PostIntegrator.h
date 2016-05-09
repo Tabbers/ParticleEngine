@@ -9,7 +9,8 @@ namespace pe
 		static bool CollissionSolver(Particle* particle, std::vector<Surface*> &surfaces, float deltatime)
 		{
 			bool collision = false;
-			if (particle->forceGenKey & pe::Keys::COLLISION_REFLEXION)
+			if (particle->forceGenKey & pe::Keys::COLLISION_REFLEXION ||
+				particle->forceGenKey & pe::Keys::COLLISION_FRICTION)
 			{
 				collision = pe::collision::SurfaceCollissionSolver(particle, surfaces, deltatime);
 			}

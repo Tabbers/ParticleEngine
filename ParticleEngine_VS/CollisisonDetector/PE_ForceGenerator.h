@@ -36,12 +36,14 @@ namespace pe
 			Vector2 finalforce;
 			unsigned short gravity = (particle->forceGenKey & pe::Keys::GRAVITY);
 			unsigned short drag = ((particle->forceGenKey & pe::Keys::DRAG) >> 1);
+			
 			unsigned short impulse = ((particle->forceGenKey & pe::Keys::IMPULSE) >> 2);
+			particle->forceGenKey &= ~pe::Keys::IMPULSE;
 			
 			finalforce += GravitySolver(particle) * gravity;
-			finalforce += DragSolver(particle) * drag ;
+			finalforce += DragSolver(particle) * drag;
 			finalforce += ImpulseSolver(particle) * impulse;
-			particle->forceGenKey &= ~pe::Keys::IMPULSE;
+			
 
 			return finalforce;
 		}
