@@ -1,4 +1,5 @@
 ﻿#include "vector2.h"
+#include "Vectord2.h"
 #include <math.h>
 
 Vector2::Vector2(float x, float y)
@@ -30,6 +31,12 @@ void Vector2::operator+=(const Vector2 & rhs)
 	y +=  rhs.y;
 }
 
+void Vector2::operator-=(const Vector2 & rhs)
+{
+	x -= rhs.x;
+	y -= rhs.y;
+}
+
 void Vector2::operator*=(const float rhs)
 {
 	x *= rhs;
@@ -54,6 +61,13 @@ Vector2 Vector2::operator-(const Vector2 &rhs) const
 	Vector2 temp;
 	temp.x = x - rhs.x;
 	temp.y = y - rhs.y;
+	return temp;
+}
+Vector2 Vector2::operator-(const float & rhs) const
+{
+	Vector2 temp;
+	temp.x = x;
+	temp.y = y - rhs;
 	return temp;
 }
 Vector2 Vector2::operator*(const float rhs) const
@@ -123,7 +137,10 @@ Vector2 Vector2::Normalize() const
 {
 	Vector2 temp;
 	float length = this->Length();
-	if (length < EPSILON && length > -EPSILON) length = 1;
+	if (length < EPSILON && length > -EPSILON)
+	{
+		return Vector2(0.0f, 0.0f);
+	}
 	temp.x = x / length;
 	temp.y = y / length;
 	return temp;
@@ -182,6 +199,14 @@ sf::Vector2u Vector2::toVector2u() const
 	vec2u.x = static_cast<unsigned int>(x);
 	vec2u.y = static_cast<unsigned int>(y);
 	return vec2u;
+}
+
+Vectord2 Vector2::toVectord2() const
+{
+	Vectord2 vecd2;
+	vecd2.x = static_cast<float>(x);
+	vecd2.y = static_cast<float>(y);
+	return vecd2;
 }
 
 Vector2 Vector2::rotate90() const

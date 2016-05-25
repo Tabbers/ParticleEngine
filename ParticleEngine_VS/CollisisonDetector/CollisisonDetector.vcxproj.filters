@@ -30,6 +30,9 @@
     <ClCompile Include="..\ParticleEngine\Display.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\ParticleEngine\Vectord2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ParticleEngine\Core.h">
@@ -41,9 +44,6 @@
     <ClInclude Include="..\ParticleEngine\Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ParticleEngine\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PE_Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,10 +53,16 @@
     <ClInclude Include="PE_Integrator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PE_PostIntegrator.h">
+    <ClInclude Include="PE_Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PE_Collision.h">
+    <ClInclude Include="..\ParticleEngine\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ParticleEngine\Vectord2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PE_Events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

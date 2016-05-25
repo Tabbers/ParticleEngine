@@ -1,9 +1,6 @@
 #pragma once
-
-#include "Vectord2.h"
-
-class Vectord2;
-
+#include "Vector2.h"
+class Vector2;
 #ifndef SFML_VECTOR2_HPP
 #define SFML_VECTOR2_HPP
 
@@ -66,45 +63,43 @@ namespace sf
 } // namespace sf
 #endif // SFML_VECTOR2_HPP
 
-class Vector2
+class Vectord2
 {
 public:
-	 Vector2(float,float);
-	 Vector2();
-	 ~Vector2();
-	 void operator=(const Vector2 &rhs);
-	 void operator+=(const Vector2 &rhs);
-	 void operator-=(const Vector2 &rhs);
-	 void operator*=(const float);
-	 void operator*=(const Vector2 &rhs);
-	 Vector2 operator+(const Vector2 &rhs) const;
-	 Vector2 operator-(const Vector2 &rhs) const;
-	 Vector2 operator-(const float &rhs) const;
-	 Vector2 operator*(const float rhs)   const;
-	 Vector2 operator*(const Vector2 &rhs) const;
-	 Vector2 operator/(const float rhs)   const;
-	 bool operator==(const Vector2 &rhs)   const;
-	 bool operator>(const Vector2 &rhs)    const;
-	 bool operator<(const Vector2 &rhs)    const;
-	 Vector2 invert()					   const;
-	 Vector2 rotate90()					   const;
-	 Vector2& rotateAroundPoint(Vector2 pivot, float angle);
-	 Vector2& rotate(float); 
-	 Vector2 Normalize()				   const;
-	 float Length()						   const;
-	 float SqrLength()					   const;
-	 float GetAngleRad()				   const;
-	 float GetAngleDeg()				   const;
-	 float dot(const Vector2& rhs)		   const;
-	 float det(const Vector2& rhs)		   const;
+	 Vectord2(float,float);
+	 Vectord2();
+	 ~Vectord2();
+	 void operator=(const Vectord2 &rhs);
+	 void operator+=(const Vectord2 &rhs);
+	 void operator*=(const double);
+	 void operator*=(const Vectord2 &rhs);
+	 Vectord2 operator+(const Vectord2 &rhs) const;
+	 Vectord2 operator-(const Vectord2 &rhs) const;
+	 Vectord2 operator*(const double rhs)   const;
+	 Vectord2 operator*(const Vectord2 &rhs) const;
+	 Vectord2 operator/(const double rhs)   const;
+	 bool operator==(const Vectord2 &rhs)   const;
+	 bool operator>(const Vectord2 &rhs)    const;
+	 bool operator<(const Vectord2 &rhs)    const;
+	 Vectord2 invert()					   const;
+	 Vectord2 rotate90()					   const;
+	 Vectord2& rotateAroundPoint(Vectord2 pivot, float angle);
+	 Vectord2& rotate(float); 
+	 Vectord2 Normalize()				   const;
+	 double Length()					   const;
+	 double SqrLength()					   const;
+	 double GetAngleRad()				   const;
+	 double GetAngleDeg()				   const;
+	 double dot(const Vectord2& rhs)		   const;
+	 double det(const Vectord2& rhs)		   const;
 	 sf::Vector2f toVector2f()			   const;
 	 sf::Vector2i toVector2i()			   const;
 	 sf::Vector2u toVector2u()			   const;
-	 Vectord2 toVectord2() const;
+	 Vector2 toVector2() const;
 public:
 	float x = 0;
 	float y = 0;
 	const float PI = 3.1415927410125732421875f;
-	const float EPSILON = 0.00001;
+	const float EPSILON = 0.001;
 };
 

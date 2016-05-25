@@ -18,6 +18,7 @@ public:
 	inline std::vector<pe::Surface*> GetSurfaces() { return surfaces; }
 
 	void AddNewParticle(Vector2);
+	void EmitteFromMouse(Vector2 mousePosition);
 private:
 	Vector2 m_SimulationBounds;
 	std::vector<pe::Particle*> particles;
